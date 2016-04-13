@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.Title.</h2>
+
+<script src="~/Scripts/jquery-2.2.2.js"></script>
+<script type="text/javascript">
+    function GetPositionsList() {
+        $.ajax({
+            url: '@Url.Action("GetPositionsDepartment", "Home")',
+            type: 'GET',
+            datatype: 'json',
+            cache: false,
+            success: function (data) {
+                $("#PositionName").empty();
+                var inner = "<table><tr><td>Positions name</td></tr>"
+                data.forEach(function (entry) {
+                    inner = inner + "<tr><th>" + entry + "</th></tr>"
+                })
+                inner += "</table>";
+                                
+                $("#PositionName").append(inner);
+            }
+        })
+    };
+    function GetEmployeesList() {
+        $.ajax({
+            url: '@Url.Action("GetEmployeesDepartment", "Home")',
+            type: 'GET',
+            datatype: 'json',
+            cache: false,
+            success: function (data) {
+                $("#EmployeesName").empty();
+                var inner = "<table><tr><td>Employees name</td></tr>"
+                data.forEach(function (entry) {
+                    inner = inner + "<tr><th>" + entry + "</th></tr>"
+                })
+                inner += "</table>";
+
+                $("#EmployeesName").append(inner);
+            }
+        })
+    }
+</script>
+
+<div>
+    Positions
+    <div id="PositionName">
+    </div>    
+</div>
+<div>
+    Employees
+    <div id="EmployeesName">
+    </div>
+</div>
+<div>
+    <div class="form-group row">        
+        <input type="button" id="positions" onclick="GetPositionsList()" class="btn btn-default" value="Positions list department" />        
+    </div>
+
+    <div class="form-group row">        
+        <input type="button" id="employees" onclick="GetEmployeesList()" class="btn btn-default" value="employees list department" />        
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+}
